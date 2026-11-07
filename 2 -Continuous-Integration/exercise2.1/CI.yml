@@ -21,11 +21,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Start to test and build the artifact
+        run: echo Starting tests and build
 
       # Runs a set of commands using the runners shell
       - name: Run test and build

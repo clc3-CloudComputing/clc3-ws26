@@ -1,7 +1,6 @@
 # Exercise 2.1: Setup Continuous Integration
 
-In this exercise, you will set up a *Continuous Integration* (CI) workflow using GitHub as the version control system, GitHub Actions as the build tool, and DockerHub as the artifact repository. This workflow will execute the unit tests of the source code and build the code. 
-A change in the codebase should trigger the workflow.
+In this exercise, you will set up a *Continuous Integration* (CI) workflow using GitHub as the version control system and GitHub Actions to run the checks. The workflow runs the unit tests and compiles the code when a change is pushed or a pull request is opened. The compiled binary is not saved after the workflow finishes; Exercise 2.2 publishes a container image to Docker Hub.
 
 ## Setup
 
@@ -20,9 +19,9 @@ A change in the codebase should trigger the workflow.
 
 ## Instructions
 
-1. Create a **public** GitHub repository called `mini-ci-example`
+1. Create a GitHub repository called `mini-ci-example`
 
-2. Add and commit `main.go`, `main_test.go`, and `go.mod` to your repository via drag-and-drop.
+2. Add and commit `main.go`, `main_test.go`, and `go.mod` to your repository.
 
 3. In GitHub, go to **Actions** and set up a GitHub workflow by clicking `set up a workflow yourself`:
 
@@ -54,11 +53,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Start to test and build the artifact
+        run: echo Starting tests and build
 
       # Runs a set of commands using the runners shell
       - name: Run test and build
@@ -69,7 +73,7 @@ jobs:
 
 1. Trigger the GitHub Action build by a code change, e.g., change "Hello" to "Hi there" in the file `./main.go`
 
-1. Watch GitHub Action executing your tests and building the artifact.
+1. Watch GitHub Actions run your tests and compile the binary.
 
     :mag: What is your observation? 
 

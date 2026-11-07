@@ -1,14 +1,16 @@
 # Exercise 2.2: Build and push a Container Image to DockerHub
 
-In this exercise, you will integrate DockerHub into the CI workflow to push an image to your DockerHub account. Therefore, a Dockerfile needs to be added to the repository, and the steps to build, tag, and push an image need to be extended to the GitHub Action workflow. 
+In this exercise, you will integrate Docker Hub into the CI workflow to push an image to your Docker Hub account. Add a Dockerfile to the repository and extend the GitHub Actions workflow with steps to build, tag, and push the image.
+
+To follow the steps below, start with the workflow from Exercise 2.1 and add the steps in order.
 
 ## Requirements
 
-* DockerHub Account account
+* Docker Hub account
     <details><summary>Click here for sign-up instructions.</summary>
     <p>
 
-    To sign up: https://hub.docker.com/signup
+    To sign up: https://app.docker.com/signup
 
     </p>
     </details>
@@ -21,18 +23,19 @@ In this exercise, you will integrate DockerHub into the CI workflow to push an i
 
     1. In your repository, go to `Settings` > `Secrets and variables` > `Actions` > **New repository secret**
 
-    1. Add the secret `DOCKERHUB_USERNAME` with your DockerHub registry user name
+    1. Add the secret `DOCKERHUB_USERNAME` with your Docker Hub user name
 
-    1. Add the secret `DOCKERHUB_TOKEN` with your DockerHub registry password. 
+    1. Create a Docker Hub personal access token with read and write permissions, then add it as the `DOCKERHUB_TOKEN` secret. Do not use your account password.
 
 1. Add and commit the provided `Dockerfile` to your repository.
 
 1. Extend the `CI.yml` workflow with the following step. Note: This is *not required but recommended* using it to be able to build multi-platform images:
 
     ```yaml
-    # Boot Docker builder using by default the docker-container
+    # Set up a Docker builder (the action uses the docker-container driver by default)
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      if: github.event_name != 'pull_request'
+      uses: docker/setup-buildx-action@v4
     ```
 
 
@@ -41,7 +44,8 @@ In this exercise, you will integrate DockerHub into the CI workflow to push an i
     ```yaml
     # Login to DockerHub account
     - name: Login to DockerHub
-      uses: docker/login-action@v3 
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v4
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -53,16 +57,17 @@ In this exercise, you will integrate DockerHub into the CI workflow to push an i
     # Build a Docker image based on the provided Dockerfile
     - name: Build and push
       id: docker_build
-      uses: docker/build-push-action@v6
+      if: github.event_name != 'pull_request'
+      uses: docker/build-push-action@v7
       with:
         context: .
         push: true
-        tags: [user]/app:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
     ```
 
 1. Finally, trigger a build by a code change. 
 
-1. Watch GitHub Actions executing your tests, building the artifact, and pushing it to DockerHub.
+1. Watch GitHub Actions run your tests, build the image, and push it to Docker Hub. Docker setup, login, and push steps are skipped for pull requests so forked pull requests can run the tests without Docker Hub secrets.
 
 :mag: Go to your DockerHub account and find your image. Can you find it?
 
@@ -85,7 +90,7 @@ It is not good practice to use the version `latest` for an image tag. Instead, m
 1. Change the `Build and push` step to reference the `sha_short` variable for the tag version: 
 
     ```yaml
-        tags: [user]/app:${{ steps.vars.outputs.sha_short }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:${{ steps.vars.outputs.sha_short }}
     ```
 
 1. Finally, trigger a build by a code change. 

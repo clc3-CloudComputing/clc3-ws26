@@ -8,12 +8,13 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	t := time.Now()
-	fmt.Fprintf(w, "Hello, it is %d:%d", t.Hour(), getRoundedMinute(t.Minute(), t.Second()))
+	fmt.Println("Request received from", r.RemoteAddr)
+	t := roundToNearestMinute(time.Now())
+	fmt.Fprintf(w, "Hello, it is %d:%d", t.Hour(), t.Minute())
 }
 
-func getRoundedMinute(minute int, second int) int {
-	return minute + second/30
+func roundToNearestMinute(t time.Time) time.Time {
+	return t.Round(time.Minute)
 }
 
 func main() {
