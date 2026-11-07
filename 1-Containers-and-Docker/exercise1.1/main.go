@@ -7,7 +7,8 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello from Go in a Docker Container!")
+	fmt.Println("Received request from:", r.RemoteAddr)
+	fmt.Fprintln(w, "Hello from a Docker container!")
 }
 
 func main() {

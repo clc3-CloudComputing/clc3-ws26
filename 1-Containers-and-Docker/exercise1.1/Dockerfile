@@ -1,7 +1,7 @@
-# Pull in the layer of the base image: golang:1.23.3-alpine
+# Pull in the layer of the base image: golang:1.27.3-alpine3.24
 
 
-# Set author label: LABEL author=[YOUR-EMAIL]
+# Set maintainer label: LABEL maintainer=[YOUR-EMAIL]
 
 
 # Set working directory: `/opt`

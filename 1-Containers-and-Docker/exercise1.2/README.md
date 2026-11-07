@@ -19,7 +19,7 @@ In this exercise, you will push an image to the container registry [DockerHub](h
     <details><summary>Click here for sign-up instructions.</summary>
     <p>
 
-    * To sign up: https://hub.docker.com/signup
+    * To sign up: https://app.docker.com/signup
 
     </p>
     </details>
@@ -32,28 +32,23 @@ In this exercise, you will push an image to the container registry [DockerHub](h
     docker login
     ```
 
-    ```console
-    Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-    Username: YOUR-DOCKERHUB-ACCOUNT
-    Password: YOUR-DOCKERHUB-PASSWORD
-    Login Succeeded
-    ```
+    Follow Docker's authentication prompts.
 
-1. Push image from exercise 1.1 to your DockerHub account:
+2. Push image from exercise 1.1 to your DockerHub account:
 
     ```console
     docker image push [YOUR-DOCKERHUB-ACCOUNT]/hello-app:0.0.1
     ```
 
-1. Verify the push on your account: https://hub.docker.com/
+3. Verify the push on your account: https://hub.docker.com/
 
-1. Pull the image from a classmate's DockerHub account:
+4. Pull the image from a classmate's DockerHub account:
 
     ```console
     docker image pull [YOUR-CLASSMATE'S-ACCOUNT]/hello-app:0.0.1
     ```
 
-1. Verify the pull on your local machine:
+5. Verify the pull on your local machine:
 
     ```console
     docker images

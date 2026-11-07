@@ -19,7 +19,7 @@ In this exercise, you will write a Dockerfile and you will build an im
     <details><summary>Click here for sign-up instructions.</summary>
     <p>
 
-    * To sign up: https://hub.docker.com/signup
+    * To sign up: https://app.docker.com/signup
 
     </p>
     </details>
@@ -27,8 +27,8 @@ In this exercise, you will write a Dockerfile and you will build an im
 ## Instructions
 
 1. Create a Dockerfile with the following instructions:
-    * Base image: `golang:1.23.3-alpine`
-    * Set author label: `author='<YOUR-EMAIL'>`
+    * Base image: `golang:1.27.3-alpine3.24`
+    * Set a maintainer label: `LABEL maintainer="<YOUR-EMAIL>"`
     * Set working directory: `/opt`
     * Copy local file `go.mod` and `main.go` to the image folder `/opt/`
     * List items in the working directory (`ls -lsa`)
@@ -40,9 +40,8 @@ In this exercise, you will write a Dockerfile and you will build an im
     * Image tag: `[YOUR-DOCKERHUB-ACCOUNT]/hello-app:0.0.1`
 
     ```console
-    docker image build -f Dockerfile -t [YOUR-DOCKERHUB-ACCOUNT]/hello-app:0.0.1 ./ 
+    docker image build -f Dockerfile -t [YOUR-DOCKERHUB-ACCOUNT]/hello-app:0.0.1 ./  --progress=plain
     ```
-    *Note:* If your Docker version is greater than 0.18, you are using Docker's new BuildKit engine that does not display the output from a `RUN` step. Therefore, add the option: `--progress=plain`
 
 3. Execute the command a second time: 
 
@@ -52,7 +51,7 @@ In this exercise, you will write a Dockerfile and you will build an im
 
     :mag: What is your observation? 
   
-4. List all images that are stored in your local registry:
+4. List the images stored in your local Docker image store:
 
     ```console
     docker images
