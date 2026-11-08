@@ -4,7 +4,7 @@ In this exercise, you will deploy a container in a Kubernetes cluster. Thus, a P
 
 ## Requirements
 
-* `kubectl` is connected to the Kubernetes cluster created in the previous [exercise 3.1](../exercise%203.1)
+* `kubectl` is connected to the Kubernetes cluster created in the previous [exercise 3.1](../exercise3.1/README.md)
 
 ## Instructions
 
@@ -13,6 +13,8 @@ In this exercise, you will deploy a container in a Kubernetes cluster. Thus, a P
     ```console
     kubectl run demo --image=agrimmer/demo:time
     ```
+
+    The provided `pod.yaml` is an alternative declarative way to create the same Pod. Use either the command above or `kubectl apply -f pod.yaml`, not both.
 
 1. To verify that the container has started and the app is running, use:
     
@@ -26,7 +28,7 @@ In this exercise, you will deploy a container in a Kubernetes cluster. Thus, a P
     kubectl port-forward pod/demo 9999:8888
     ```
 
-    :mag: Now, access the website [http://localhost:9999](http://localhost:9999). What is shown there? 
+    :mag: While the command is running, access [http://localhost:9999](http://localhost:9999). What is shown there? Stop port forwarding with **Ctrl+C** when you are done.
 
 1. To delete the pod, use:
 

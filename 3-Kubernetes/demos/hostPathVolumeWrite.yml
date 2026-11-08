@@ -1,3 +1,4 @@
+# The reader Pod must run on this same node, after this writer creates the file.
 apiVersion: v1
 kind: Pod
 metadata:

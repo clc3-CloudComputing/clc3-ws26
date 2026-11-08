@@ -1,3 +1,3 @@
-module github.com/clc3-CloudComputing/clc3-ws23/4-Continuous-Deployment/exercise4.1/src
+module github.com/clc3-CloudComputing/clc3-ws26/4-Continuous-Deployment/exercise4.1/src
 
-go 1.21.3
+go 1.27

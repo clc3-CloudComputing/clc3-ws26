@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/clc3-CloudComputing/clc3-ws25/4-Continuous-Deployment/exercise4.1/src/internal/format"
+	"github.com/clc3-CloudComputing/clc3-ws26/4-Continuous-Deployment/exercise4.1/src/internal/format"
 )
 
 const plainOutput = `Good day! Time now: %02d:%02d`
@@ -23,29 +23,31 @@ Time now: %02d:%02d
 </html>
 `
 
-type myHandler struct {
+type httpHandler struct {
 }
 
-func (myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	t := time.Now()
+func (httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Received request from:", r.RemoteAddr)
+
 	var output string
 	if format.GetOutputFormat() == format.Html {
 		output = htmlOutput
 	} else {
 		output = plainOutput
 	}
-	fmt.Fprintf(w, output, t.Hour(), getMinute(t.Minute(), t.Second()))
+	t := roundToNearestMinute(time.Now())
+	fmt.Fprintf(w, output, t.Hour(), t.Minute())
 }
 
-func getMinute(minute int, second int) int {
-	return minute + second/30
+func roundToNearestMinute(t time.Time) time.Time {
+	return t.Round(time.Minute)
 }
 
 func main() {
 
 	srv := &http.Server{
 		Addr:         ":8888",
-		Handler:      &myHandler{},
+		Handler:      &httpHandler{},
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}

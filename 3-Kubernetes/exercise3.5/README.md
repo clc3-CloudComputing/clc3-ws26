@@ -2,7 +2,7 @@
 
 In this exercise, you will create a ConfigMap, which allows us to control the output format of our application.
 More precisely, the ConfigMap will control if the output is in plain text or HTML-formatted.
-Therefore, you will mount the ConfigMap as an environment variable in the Pod.
+Therefore, you will expose a ConfigMap value as an environment variable in the Pod.
 By editing the ConfigMap, you will be able to control the output format without changing the image.
 
 ## Instructions
@@ -43,7 +43,7 @@ By editing the ConfigMap, you will be able to control the output format without 
         spec:
           containers:
           - name: demo
-            image: agrimmer/demo:formatted
+            image: agrimmer/demo:time
             ports:
             - containerPort: 8888
             env:
@@ -68,6 +68,6 @@ By editing the ConfigMap, you will be able to control the output format without 
 
     :mag: Now, access the website [http://localhost:9999](http://localhost:9999). Do you see an HTML-formatted output? 
 
-1. Change the output format back to *plain*. What is needed that the changes are applied?
+1. Change the output format back to *plain*. What is needed for the change to be applied? (Hint: environment variables are set when a container starts.)
 
 1. Mount the ConfigMap as volume and check the files by getting a shell to the running container.

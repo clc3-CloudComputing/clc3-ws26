@@ -1,6 +1,6 @@
 # Exercise 3.6: Using Namespaces
 
-In this exercise, you will create a Namespace for your Kubernetes resources (i.e., Deployments, Services, Pods). Afterward, you will modify the Deployment manifest from exercise 3.2, to create a Deployment in this particular Namespace.
+In this exercise, you will create a Namespace for your Kubernetes resources (i.e., Deployments, Services, and Pods). Afterward, you will modify the Deployment manifest from exercise 3.3 to create a Deployment in this Namespace.
 
 ## Instructions
 
@@ -32,7 +32,7 @@ In this exercise, you will create a Namespace for your Kubernetes resources (i.e
     kube-system        Active   20m
     ```
 
-1. Modify the deployment from exercise 3.3. so that the demo app will be deployed in the `demo-environment` namespace. Therefore, extend the `metadata` as follows:
+1. Modify the Deployment from exercise 3.3 so that the demo app will be deployed in the `demo-environment` namespace. Extend the `metadata` as follows:
     
     ```yaml
     metadata:

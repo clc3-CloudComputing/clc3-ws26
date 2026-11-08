@@ -1,3 +1,4 @@
+# Requires a CNI plugin that enforces Kubernetes NetworkPolicies.
 apiVersion: v1
 kind: Pod
 metadata:
@@ -34,8 +35,7 @@ spec:
       tty: true
       stdin: true
       stdinOnce: true
-      args:
-      - sh
+      command: ["sh"]
 ---
 apiVersion: v1
 kind: Pod
@@ -50,8 +50,7 @@ spec:
       tty: true
       stdin: true
       stdinOnce: true
-      args:
-      - sh
+      command: ["sh"]
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

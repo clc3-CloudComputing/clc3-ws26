@@ -31,16 +31,19 @@ In case you have no access to a public cloud (because you do not have a credit c
 
 1. Open the [Kubernetes Engine Overview](https://console.cloud.google.com/kubernetes)
 
-2. Click on *Create* and select "Standard: You manage your cluster"
+2. Click on *Create cluster* and switch to "Standard cluster"
 
-3. Create a cluster with the *default* settings except for the *Number of nodes* where you only need 1:
+3. Create a cluster with the *default* settings except for the *Number of nodes* where you only need 1 (in order to save costs):
 
     ![K8s Cluster in GKE](./assets/create_gke_cluster1.png)
     ![K8s Cluster in GKE](./assets/create_gke_cluster2.png)
 
-4. As soon as your cluster is ready, click on *Connect* and copy and paste this command into your terminal
+4. Optional: Enable *Calico Kubernetes Network Policy*
+    ![K8s Cluster in GKE](./assets/create_gke_cluster3.png)
 
-5. Now, your `kubectl` (i.e., the Kubernetes command-line tool) should be configured for your cluster. To verify this, execute the command: 
+5. As soon as your cluster is ready, click on *Connect* and copy and paste this command into your terminal
+
+6. Now, your `kubectl` (i.e., the Kubernetes command-line tool) is configured for your cluster. To verify this, execute the command: 
 
     ```console
     kubectl get nodes
@@ -74,26 +77,24 @@ In case you have no access to a public cloud (because you do not have a credit c
 
 1. Open the [Azure Portal](https://portal.azure.com/) and select *Kubernetes services*
 
-1. Click on *Create* and select "Create a Kubernetes cluster"
+1. Click on *Create* and select "Kubernetes cluster"
 
 1. Select a *Subscription*, *Resource group* (if necessary, create a new group)
 
-1. As *Kubernetes cluster name* choose any name (e.g., `myname-cluster`)
+1. As *Kubernetes cluster name* choose any name (e.g., `clc3-cluster`)
 
-1. For both Node pools *agentpool* and *userpool*, select
-     * *Node size* = *D2s_v3*, 
+1. For the Node pool *agentpool*, select
+     * *Node size* = *D2alds v6*, 
      * *Scale method* = *Manual*, and
      * *Node count* = 1
 
     ![K8s Cluster in AKS](./assets/create_aks_cluster.png)
 
-2. Click *Review + create* and after the validation click *Create*
+1. Optional: Enable *Calico* as the *Network policy engine*
 
-3. As soon as your cluster is created, execute the following command in your terminal:
+1. Click *Review + create* and, after validation, click *Create*
 
-    ```console
-    az aks get-credentials --resource-group YOUR-RESOURCE-GROUP --name MYNAME-CLUSTER
-    ```
+1. As soon as your cluster is created, click *Connect* and run the `az aks get-credentials` command shown there.
 
 ## Kind
 
@@ -119,7 +120,12 @@ In case you have no access to a public cloud (because you do not have a credit c
 
 ## minikube
 
-`minikube` minikube is local Kubernetes, focusing on making it easy to learn and develop for Kubernetes."
+`minikube` is a tool for running Kubernetes locally, focusing on making it easy to learn and develop for Kubernetes.
+
+### Prerequisites
+1. [Docker](https://docs.docker.com/get-docker/)
+
+1. Install `minikube` by following the installation instructions provided in the [Get Started documentation](https://minikube.sigs.k8s.io/docs/start/)
 
 ### Starting a local Cluster 
 1. In your terminal, execute the following command:
@@ -133,3 +139,7 @@ In case you have no access to a public cloud (because you do not have a credit c
     ```console
     kubectl cluster-info
     ```
+
+## Cleanup
+
+Delete your cloud cluster from the GKE or AKS console when you are finished to avoid ongoing costs. For local clusters, run `kind delete cluster` or `minikube delete`.

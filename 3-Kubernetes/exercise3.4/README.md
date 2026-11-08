@@ -113,6 +113,7 @@ applying it to your Kubernetes cluster.
 
     **Note for Google Cloud:**
     You need to create a firewall rule to allow TCP traffic on the node port using
+    the assigned NodePort and the target tag for your own GKE cluster. The command below uses the example values shown above.
     `gcloud compute firewall-rules create test-node-port --allow tcp:31425 --target-tags gke-grimmer-dev-6cb41d0c-node`
 
 ### LoadBalancer
@@ -126,7 +127,7 @@ applying it to your Kubernetes cluster.
     kubectl patch service demo -p '{"spec": {"type": "LoadBalancer"}}'
     ```
 
-1. Your service now acts as *LoadBalancer* and received an externally accessible IP address. You can obtain this IP with:
+1. Your service now acts as a *LoadBalancer* and receives an externally accessible IP address. You can obtain this IP with:
 
     ```console
     kubectl describe service demo

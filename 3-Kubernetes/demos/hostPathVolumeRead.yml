@@ -1,3 +1,4 @@
+# This Pod must run on the same node as hostPathVolumeWrite.yml.
 apiVersion: v1
 kind: Pod
 metadata:

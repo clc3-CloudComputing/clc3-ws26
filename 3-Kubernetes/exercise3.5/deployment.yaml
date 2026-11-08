@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: agrimmer/demo:formatted
+        image: agrimmer/demo:time
         ports:
         - containerPort: 8888
         env:
