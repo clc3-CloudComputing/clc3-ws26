@@ -1,22 +1,21 @@
 # Exercise 4.1: Performing a Rolling Update
 
 In this exercise, you will learn how to roll out a new version of our application using
-a **rolling update** strategy. Rolling updates allow updates of Deployments to take place with zero downtime by incrementally updating Pods instances with new ones.
+a **rolling update** strategy. Rolling updates replace Pods incrementally. With enough healthy replicas and capacity, this can keep the application available during an update.
 
-To get a zero-downtime deployment (i.e. without having an availability gap in our deployment), we will add a readiness probe as well as a lifecycle hook:
+To reduce the risk of an availability gap, we will add a readiness probe as well as a lifecycle hook:
 - The **readiness probe** checks whether our application is ready to handle the traffic.
-- The lifecycle hook **preStop** allows to add a waiting time before the final termination signal is sent to our container. This allows Kubernetes to remove the Pod from the endpoints and,
-by this, the LoadBalancer is reconfigured before the application process is terminated. With this grace period, we can ensure no requests are routed to a terminated pod.
+- The lifecycle hook **preStop** runs before Kubernetes sends the termination signal to the container. A short wait gives Kubernetes and load balancers time to update their endpoints, but that propagation is asynchronous, so the wait cannot guarantee that no requests reach a terminating Pod.
 
 ## Instructions
 
-1. In order to prepare your deployment for a zero-downtime rolling update, you need to specify the following fields:
-    - `.spec.replicas`: Specifies the used replicas. Here, at least two replicas are needed to perform a rolling update, e.g. use 5 replicas.
+1. To prepare your Deployment for a rolling update that can maintain application availability, specify the following fields:
+    - `.spec.replicas`: Specifies the desired number of replicas. Use multiple replicas (e.g. 5) so healthy existing Pods can continue serving traffic while new Pods start.
     - `.spec.strategy.type`: Specifies the strategy used to replace old Pods by new ones. `.spec.strategy.type` can be "Recreate" or "RollingUpdate".
-    - `.spec.strategy.rollingUpdate.maxUnavailable`: Specifies the maximum number of Pods that can be unavailable during the update process.
+    - `.spec.strategy.rollingUpdate.maxUnavailable`: Specifies the maximum number of Pods that can be unavailable during the update process. With 5 replicas and a value of `1`, Kubernetes can keep at least 4 available while updating, provided the remaining Pods are healthy.
     - `.spec.strategy.rollingUpdate.maxSurge`: Specifies the maximum number of Pods that can be created over the desired number of Pods.
-    - `.spec.container.readinessProbe`: Specifies a readiness probe for checking whether our application is ready to handle the traffic.
-    - `.spec.container.lifecycle.preStop`: Specifies a lifecycle hook, which must be completed before the container is terminated. 
+    - `.spec.template.spec.containers[].readinessProbe`: Specifies a readiness probe for checking whether an application container is ready to handle traffic.
+    - `.spec.template.spec.containers[].lifecycle.preStop`: Specifies a lifecycle hook that must complete before Kubernetes sends the termination signal to the container.
 
 
     ```yaml
@@ -55,16 +54,28 @@ by this, the LoadBalancer is reconfigured before the application process is term
                   command: ["sleep", "15"]
     ```
 
+1. Save this manifest as `deployment.yaml` and apply it to update the existing `demo` Deployment:
+
+    ```console
+    kubectl apply -f deployment.yaml
+    ```
+
 1. Watch the updating of the Pods in a terminal:
 
     ```console
     watch kubectl get pods
     ```
 
-1. Open a second terminal and poll your application in a loop:
+1. In a second terminal, find your Service's external address:
 
     ```console
-    while true; do sleep 1; curl http://HOSTNAME; echo; done
+    kubectl get service demo
+    ```
+
+    If the Service is a LoadBalancer, replace `<EXTERNAL-ADDRESS>` below with its `EXTERNAL-IP` or hostname, then poll the application:
+
+    ```console
+    while true; do sleep 1; curl --fail http://<EXTERNAL-ADDRESS>; echo; done
     ```
 
 1. Update the image of your deployment:
@@ -73,4 +84,4 @@ by this, the LoadBalancer is reconfigured before the application process is term
     kubectl set image deployments/demo demo=agrimmer/demo:html
     ```
 
-:rocket: Watch the update of your application without experiencing any downtime.
+:rocket: Watch the Pods roll out and observe the application responses. With healthy replicas and sufficient capacity, requests should continue to be served during the update.
