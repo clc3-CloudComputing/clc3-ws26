@@ -27,7 +27,7 @@ In this exercise, you will set up a *Continuous Integration* (CI) workflow using
 
 ![GitHub Action activation](./assets/gh_action_activate.png)
 
-1. Create a file `main.yml` in the folder `.github/workflows` of your repository and copy-paste the content from the provided `CI.yml` file. 
+1. Create a file `main.yml` in the folder `.github/workflows` of your repository and copy-paste the content from the provided `main.yml` file. 
 
 ```yaml
 name: CI

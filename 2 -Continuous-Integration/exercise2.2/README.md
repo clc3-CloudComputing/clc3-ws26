@@ -29,7 +29,7 @@ To follow the steps below, start with the workflow from Exercise 2.1 and add the
 
 1. Add and commit the provided `Dockerfile` to your repository.
 
-1. Extend the `CI.yml` workflow with the following step. Note: This is *not required but recommended* using it to be able to build multi-platform images:
+1. Extend the `main.yml` workflow with the following step. Note: This is *not required but recommended* using it to be able to build multi-platform images:
 
     ```yaml
     # Set up a Docker builder (the action uses the docker-container driver by default)
@@ -39,7 +39,7 @@ To follow the steps below, start with the workflow from Exercise 2.1 and add the
     ```
 
 
-1. Extend the `CI.yml` workflow with a Docker `login` step:
+1. Extend the `main.yml` workflow with a Docker `login` step:
 
     ```yaml
     # Login to DockerHub account
@@ -51,7 +51,7 @@ To follow the steps below, start with the workflow from Exercise 2.1 and add the
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     ```
     
-1. Extend the `CI.yml` workflow with a Docker `build-push` step. Please change the [user] to your DockerHub account name: 
+1. Extend the `main.yml` workflow with a Docker `build-push` step. Please change the [user] to your DockerHub account name: 
 
     ```yaml
     # Build a Docker image based on the provided Dockerfile
@@ -76,7 +76,7 @@ To follow the steps below, start with the workflow from Exercise 2.1 and add the
 
 It is not good practice to use the version `latest` for an image tag. Instead, make it as specific as possible, e.g., by using the Git commit SHA instead: 
 
-1. Extend the `CI.yml` workflow with a step that derives the short Git commit SHA and stores it in a variable: 
+1. Extend the `main.yml` workflow with a step that derives the short Git commit SHA and stores it in a variable: 
 
     ```yaml
     # Declare variables to store branch name and short Git commit SHA
