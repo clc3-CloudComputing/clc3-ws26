@@ -1,6 +1,6 @@
 # Exercise 3.5: Creating a ConfigMap
 
-In this exercise, you will create a ConfigMap, which allows us to control the output format of our application.
+In this exercise, you will create a ConfigMap, which allows to control the output format of our application.
 More precisely, the ConfigMap will control if the output is in plain text or HTML-formatted.
 Therefore, you will expose a ConfigMap value as an environment variable in the Pod.
 By editing the ConfigMap, you will be able to control the output format without changing the image.
