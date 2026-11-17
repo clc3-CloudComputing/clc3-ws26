@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: agrimmer/demo:plain
+        image: agrimmer/demo:time
         imagePullPolicy: Always
         ports:
         - containerPort: 8888
